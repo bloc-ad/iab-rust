@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use serde_with::{skip_serializing_none, serde_as};
 use crate::json_coercion::{AsString, AsEnum};
-use crate::defaults::default_one_venuetax;
+use crate::defaults::default_optional_venuetax_one;
 use crate::adcom;
 use super::{Publisher, Content};
 
@@ -26,7 +26,7 @@ pub struct DOOH {
     pub venuetype: Option<Vec<String>>,
     /// Venue taxonomy in use. Refer to `AdCOM 1.0` List: Venue Taxonomies.
     #[serde_as(as = "Option<AsEnum<adcom::enums::DoohVenueTaxonomy>>")]
-    #[serde(default="default_one_venuetax")]
+    #[serde(default="default_optional_venuetax_one")]
     pub venuetypetax: Option<adcom::enums::DoohVenueTaxonomy>,
     /// Details about the publisher of the placement.
     pub publisher: Option<Publisher>,

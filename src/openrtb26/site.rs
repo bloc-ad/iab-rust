@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use serde_with::{skip_serializing_none, serde_as};
 use crate::json_coercion::{AsString, AsI64, AsEnum};
-use crate::defaults::default_one_cattax;
+use crate::defaults::default_optional_cattax_one;
 use crate::adcom;
 use super::{Publisher, Content};
 
@@ -33,7 +33,7 @@ pub struct Site {
     /// for values. If no cattax field is supplied IAB Content Category
     /// Taxonomy 1.0 is assumed.
     #[serde_as(as = "Option<AsEnum<adcom::enums::CategoryTaxonomy>>")]
-    #[serde(default="default_one_cattax")]
+    #[serde(default="default_optional_cattax_one")]
     pub cattax: Option<adcom::enums::CategoryTaxonomy>,
     /// Array of IAB Tech Lab content categories of the site.
     /// The taxonomy to be used is defined by the cattax field.

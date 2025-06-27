@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use serde_with::{skip_serializing_none, serde_as};
 use crate::json_coercion::{AsI64, AsEnum};
-use crate::defaults::default_zero_reftype;
+use crate::defaults::default_optional_reftype_zero;
 use crate::adcom;
 
 #[cfg(feature = "utoipa")]
@@ -16,7 +16,7 @@ use utoipa::ToSchema;
 pub struct RefSettings {
     /// Type of declared auto refresh. Refer to `AdCOM 1.0` List: Auto Refresh Triggers. Recommended.
     #[serde_as(as = "Option<AsEnum<adcom::enums::AutoRefreshTrigger>>")]
-    #[serde(default="default_zero_reftype")]
+    #[serde(default="default_optional_reftype_zero")]
     pub reftype: Option<adcom::enums::AutoRefreshTrigger>,
     /// Minimum refresh interval in seconds. Recommended.
     #[serde_as(as = "Option<AsI64>")]

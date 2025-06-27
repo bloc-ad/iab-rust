@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use serde_with::{skip_serializing_none, serde_as};
 use crate::json_coercion::{AsString, AsI64, AsF64, AsEnum};
-use crate::defaults::{default_zero, default_zero_podseq, default_zero_slotinpod};
+use crate::defaults::{default_optional_i64_zero, default_optional_podseq_zero, default_optional_slotinpod_zero};
 use crate::adcom;
 use super::{Banner, DurFloors};
 
@@ -20,7 +20,7 @@ pub struct Audio {
     pub mimes: Vec<String>,
     /// Minimum audio ad duration in seconds. Recommended. Mutually exclusive with rqddurs.
     #[serde_as(as = "Option<AsI64>")]
-    #[serde(default="default_zero")]
+    #[serde(default="default_optional_i64_zero")]
     pub minduration: Option<i64>,
     /// Maximum audio ad duration in seconds. Recommended. Mutually exclusive with rqddurs.
     #[serde_as(as = "Option<AsI64>")]
@@ -42,16 +42,16 @@ pub struct Audio {
     pub podid: Option<String>,
     /// Sequence (position) of audio ad pod within content stream. Refer to `AdCOM 1.0` List: Pod Sequence.
     #[serde_as(as = "Option<AsEnum<adcom::enums::PodSequence>>")]
-    #[serde(default="default_zero_podseq")]
+    #[serde(default="default_optional_podseq_zero")]
     pub podseq: Option<adcom::enums::PodSequence>,
     /// DEPRECATED as of `OpenRTB` 2.6. Use slotinpod.
     #[deprecated(since = "2.6.0", note = "Use slotinpod")]
     #[serde_as(as = "Option<AsI64>")]
-    #[serde(default="default_zero")]
+    #[serde(default="default_optional_i64_zero")]
     pub sequence: Option<i64>,
     /// Seller guarantees delivery against indicated slot position in pod. Refer to `AdCOM 1.0` List: Slot Position in Pod.
     #[serde_as(as = "Option<AsEnum<adcom::enums::SlotPositionInPod>>")]
-    #[serde(default="default_zero_slotinpod")]
+    #[serde(default="default_optional_slotinpod_zero")]
     pub slotinpod: Option<adcom::enums::SlotPositionInPod>,
     /// Minimum CPM per second for dynamic portion of audio ad pod.
     #[serde_as(as = "Option<AsF64>")]

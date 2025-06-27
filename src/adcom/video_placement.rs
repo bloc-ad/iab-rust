@@ -9,7 +9,7 @@ use super::enums::{
     LinearityMode, PlaybackMethod, PlaybackCessationMode, PodSequence,
     SlotPositionInPod, CompanionType, ExpandableDirection
 };
-use crate::defaults::{default_one_i64, default_size_unit};
+use crate::defaults::{default_i64_one, default_size_unit};
 
 #[cfg(feature = "utoipa")]
 use utoipa::ToSchema;
@@ -174,7 +174,7 @@ pub struct VideoPlacement {
 
     /// Indicates if letterboxing of 4:3 creatives into a 16:9 window is allowed,
     /// where 0 = no, 1 = yes.
-    #[serde(default = "default_one_i64")]
+    #[serde(default = "default_i64_one")]
     #[serde_as(as = "AsI64")]
     pub boxing: i64,
 

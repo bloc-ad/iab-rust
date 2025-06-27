@@ -3,7 +3,7 @@ use serde_json::Value;
 use serde_with::{serde_as, skip_serializing_none};
 use crate::json_coercion::{AsString, AsI64, AsEnum};
 use super::{display::Display, video::Video, audio::Audio, audit::Audit, enums::{CategoryTaxonomy, MediaRating, CreativeAttribute}};
-use crate::defaults::default_two_cattax;
+use crate::defaults::default_cattax_two;
 
 #[cfg(feature = "utoipa")]
 use utoipa::ToSchema;
@@ -47,7 +47,7 @@ pub struct Ad {
     pub cat: Option<Vec<String>>,
 
     /// The taxonomy in use for the cat attribute. Refer to List: Category Taxonomies.
-    #[serde(default = "default_two_cattax")]
+    #[serde(default = "default_cattax_two")]
     #[serde_as(as = "AsEnum<CategoryTaxonomy>")]
     pub cattax: CategoryTaxonomy,
 

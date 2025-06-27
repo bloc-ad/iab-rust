@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use serde_with::{skip_serializing_none, serde_as};
 use crate::json_coercion::{AsI64, AsF64};
-use crate::defaults::default_zero_f64;
+use crate::defaults::default_optional_f64_zero;
 
 #[cfg(feature = "utoipa")]
 use utoipa::ToSchema;
@@ -21,7 +21,7 @@ pub struct DurFloors {
     pub maxdur: Option<i64>,
     /// Minimum bid (CPM) for this duration range. Defaults to Imp.bidfloor if outside ranges.
     #[serde_as(as = "Option<AsF64>")]
-    #[serde(default="default_zero_f64")]
+    #[serde(default="default_optional_f64_zero")]
     pub bidfloor: Option<f64>,
     /// Placeholder for vendor specific extensions.
     pub ext: Option<Value>,

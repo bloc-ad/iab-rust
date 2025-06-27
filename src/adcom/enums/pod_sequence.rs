@@ -2,19 +2,14 @@
 use utoipa::ToSchema;
 
 /// List: Pod Sequence
-#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Default)]
 #[cfg_attr(feature = "utoipa", derive(ToSchema))]
 pub enum PodSequence {
     LastPosition,
+    #[default]
     AnyPosition,
     FirstPosition,
     Unknown(i64),
-}
-
-impl Default for PodSequence {
-    fn default() -> Self {
-        PodSequence::AnyPosition
-    }
 }
 
 impl From<i64> for PodSequence {

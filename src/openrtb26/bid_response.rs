@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use serde_with::{skip_serializing_none, serde_as};
 use crate::json_coercion::{AsString, AsI64};
-use crate::defaults::default_usd;
+use crate::defaults::default_optional_string_usd;
 use super::SeatBid;
 
 #[cfg(feature = "utoipa")]
@@ -51,7 +51,7 @@ pub struct BidResponse {
     pub bidid: Option<String>,
     /// Bid currency using ISO-4217 alpha codes.
     #[serde_as(as = "Option<AsString>")]
-    #[serde(default="default_usd")]
+    #[serde(default="default_optional_string_usd")]
     pub cur: Option<String>,
     /// Optional feature to allow a bidder to set data in the exchange's
     /// cookie. The string must be in base85 cookie safe characters and be

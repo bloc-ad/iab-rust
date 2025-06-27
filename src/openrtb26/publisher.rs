@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use serde_with::{skip_serializing_none, serde_as};
 use crate::json_coercion::{AsString, AsEnum};
-use crate::defaults::default_one_cattax;
+use crate::defaults::default_optional_cattax_one;
 use crate::adcom;
 
 #[cfg(feature = "utoipa")]
@@ -22,7 +22,7 @@ pub struct Publisher {
     pub name: Option<String>,
     /// Taxonomy in use for categories. Refer to `AdCOM` List: Category Taxonomies.
     #[serde_as(as = "Option<AsEnum<adcom::enums::CategoryTaxonomy>>")]
-    #[serde(default="default_one_cattax")]
+    #[serde(default="default_optional_cattax_one")]
     pub cattax: Option<adcom::enums::CategoryTaxonomy>,
     /// Array of IAB Tech Lab content categories of the publisher.
     #[serde_as(as = "Option<Vec<AsString>>")]

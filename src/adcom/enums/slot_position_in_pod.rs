@@ -2,20 +2,15 @@
 use utoipa::ToSchema;
 
 /// List: Slot Position in Pod
-#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Default)]
 #[cfg_attr(feature = "utoipa", derive(ToSchema))]
 pub enum SlotPositionInPod {
     Unknown(i64),
+    #[default]
     NotApplicable,
     Last,
     First,
     Any,
-}
-
-impl Default for SlotPositionInPod {
-    fn default() -> Self {
-        SlotPositionInPod::NotApplicable
-    }
 }
 
 impl From<i64> for SlotPositionInPod {

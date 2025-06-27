@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use serde_with::{skip_serializing_none, serde_as};
 use crate::json_coercion::{AsString, AsI64, AsF64, AsEnum};
-use crate::defaults::{default_one, default_zero, default_zero_podseq, default_zero_slotinpod};
+use crate::defaults::{default_optional_i64_one, default_optional_i64_zero, default_optional_podseq_zero, default_optional_slotinpod_zero};
 use crate::adcom;
 use super::{Banner, DurFloors};
 
@@ -20,7 +20,7 @@ pub struct Video {
     pub mimes: Vec<String>,
     /// Minimum video ad duration in seconds. Recommended. Mutually exclusive with rqddurs.
     #[serde_as(as = "Option<AsI64>")]
-    #[serde(default="default_one")]
+    #[serde(default="default_optional_i64_one")]
     pub minduration: Option<i64>,
     /// Maximum video ad duration in seconds. Recommended. Mutually exclusive with rqddurs.
     #[serde_as(as = "Option<AsI64>")]
@@ -48,7 +48,7 @@ pub struct Video {
     pub podid: Option<String>,
     /// Sequence (position) of video ad pod within content stream. Refer to `AdCOM 1.0` List: Pod Sequence.
     #[serde_as(as = "Option<AsEnum<adcom::enums::PodSequence>>")]
-    #[serde(default="default_zero_podseq")]
+    #[serde(default="default_optional_podseq_zero")]
     pub podseq: Option<adcom::enums::PodSequence>,
     /// Precise acceptable durations for video creatives in seconds. Mutually exclusive with minduration/maxduration.
     #[serde_as(as = "Option<Vec<AsI64>>")]
@@ -68,20 +68,20 @@ pub struct Video {
     pub skip: Option<i64>,
     /// Min duration before skip is allowed (seconds); only applicable if skip=1.
     #[serde_as(as = "Option<AsI64>")]
-    #[serde(default="default_zero")]
+    #[serde(default="default_optional_i64_zero")]
     pub skipmin: Option<i64>,
     /// Seconds video must play before skipping is enabled; only applicable if skip=1.
     #[serde_as(as = "Option<AsI64>")]
-    #[serde(default="default_zero")]
+    #[serde(default="default_optional_i64_zero")]
     pub skipafter: Option<i64>,
     /// DEPRECATED as of `OpenRTB` 2.6. Use slotinpod.
     #[deprecated(since = "2.6.0", note = "Use slotinpod")]
     #[serde_as(as = "Option<AsI64>")]
-    #[serde(default="default_zero")]
+    #[serde(default="default_optional_i64_zero")]
     pub sequence: Option<i64>,
     /// Seller guarantees delivery against indicated slot position in pod. Refer to `AdCOM 1.0` List: Slot Position in Pod.
     #[serde_as(as = "Option<AsEnum<adcom::enums::SlotPositionInPod>>")]
-    #[serde(default="default_zero_slotinpod")]
+    #[serde(default="default_optional_slotinpod_zero")]
     pub slotinpod: Option<adcom::enums::SlotPositionInPod>,
     /// Minimum CPM per second for dynamic portion of video ad pod.
     #[serde_as(as = "Option<AsF64>")]
@@ -100,7 +100,7 @@ pub struct Video {
     pub maxbitrate: Option<i64>,
     /// Indicates if letter-boxing is allowed (0=no, 1=yes).
     #[serde_as(as = "Option<AsI64>")]
-    #[serde(default="default_one")]
+    #[serde(default="default_optional_i64_one")]
     pub boxingallowed: Option<i64>,
     /// Playback methods that may be in use. Refer to `AdCOM 1.0` List: Playback Methods.
     #[serde_as(as = "Option<Vec<AsEnum<adcom::enums::PlaybackMethod>>>")]

@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use serde_with::{skip_serializing_none, serde_as};
 use crate::json_coercion::{AsString, AsI64, AsEnum};
-use crate::defaults::{default_zero, default_two, default_one_cattax};
+use crate::defaults::{default_optional_i64_zero, default_optional_i64_two, default_optional_cattax_one};
 use crate::adcom;
 use super::{Imp, Site, App, DOOH, Device, User, Source, Regs};
 
@@ -61,13 +61,13 @@ pub struct BidRequest {
     /// Indicator of test mode in which auctions are not billable,
     /// where 0 = live mode, 1 = test mode.
     #[serde_as(as = "Option<AsI64>")]
-    #[serde(default="default_zero")]
+    #[serde(default="default_optional_i64_zero")]
     pub test: Option<i64>,
     /// Auction type, where 1 = First Price, 2 = Second Price Plus.
     /// Exchange-specific auction types can be defined using values 500
     /// and greater.
     #[serde_as(as = "Option<AsI64>")]
-    #[serde(default="default_two")]
+    #[serde(default="default_optional_i64_two")]
     pub at: Option<i64>,
     /// Maximum time in milliseconds the exchange allows for bids to be received
     /// including Internet latency to avoid timeout. This value supersedes any
@@ -94,7 +94,7 @@ pub struct BidRequest {
     /// road-blocking. 0 = no or unknown, 1 = yes, the impressions offered
     /// represent all that are available.
     #[serde_as(as = "Option<AsI64>")]
-    #[serde(default="default_zero")]
+    #[serde(default="default_optional_i64_zero")]
     pub allimps: Option<i64>,
     /// Array of allowed currencies for bids on this bid request using ISO-4217
     /// alpha codes. Recommended only if the exchange accepts multiple currencies.
@@ -127,7 +127,7 @@ pub struct BidRequest {
     /// The taxonomy in use for bcat. Refer to the AdCOM 1.0 list
     /// List: Category Taxonomies for values.
     #[serde_as(as = "Option<AsEnum<adcom::enums::CategoryTaxonomy>>")]
-    #[serde(default="default_one_cattax")]
+    #[serde(default="default_optional_cattax_one")]
     pub cattax: Option<adcom::enums::CategoryTaxonomy>,
     /// Block list of advertisers by their domains (e.g., "ford.com").
     #[serde_as(as = "Option<Vec<AsString>>")]

@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use serde_with::{skip_serializing_none, serde_as};
 use crate::json_coercion::{AsString, AsI64, AsEnum};
-use crate::defaults::{default_nine_cattax, default_one_cattax};
+use crate::defaults::{default_optional_cattax_nine, default_optional_cattax_one};
 use crate::adcom;
 use super::{Producer, Data, Network, Channel};
 
@@ -38,7 +38,7 @@ pub struct Content {
     pub genre: Option<String>,
     /// Taxonomy used for 'genres'. Refer to `AdCOM 1.0` List: Category Taxonomies.
     #[serde_as(as = "Option<AsEnum<adcom::enums::CategoryTaxonomy>>")]
-    #[serde(default="default_nine_cattax")]
+    #[serde(default="default_optional_cattax_nine")]
     pub gtax: Option<adcom::enums::CategoryTaxonomy>,
     /// Array of unique IDs for content genre. Taxonomy defined by gtax field.
     #[serde_as(as = "Option<Vec<AsString>>")]
@@ -56,7 +56,7 @@ pub struct Content {
     pub url: Option<String>,
     /// Taxonomy in use for 'cat'. Refer to `AdCOM` List: Category Taxonomies.
     #[serde_as(as = "Option<AsEnum<adcom::enums::CategoryTaxonomy>>")]
-    #[serde(default="default_one_cattax")]
+    #[serde(default="default_optional_cattax_one")]
     pub cattax: Option<adcom::enums::CategoryTaxonomy>,
     /// Array of IAB Tech Lab content categories describing the content.
     #[serde_as(as = "Option<Vec<AsString>>")]

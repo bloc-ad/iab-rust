@@ -3,7 +3,7 @@ use serde_json::Value;
 use serde_with::{serde_as, skip_serializing_none};
 use crate::json_coercion::{AsString, AsI64, AsEnum};
 use super::enums::{EventType, EventTrackingMethod, ApiFramework};
-use crate::defaults::default_one_i64;
+use crate::defaults::default_i64_one;
 
 #[cfg(feature = "utoipa")]
 use utoipa::ToSchema;
@@ -38,7 +38,7 @@ pub struct EventSpec {
     pub jstrk: Option<Vec<String>>,
 
     /// Sense of the jstrk restriction list, where 0 = block list, 1 = allow list.
-    #[serde(default = "default_one_i64")]
+    #[serde(default = "default_i64_one")]
     #[serde_as(as = "AsI64")]
     pub wjs: i64,
 
@@ -49,7 +49,7 @@ pub struct EventSpec {
     pub pxtrk: Option<Vec<String>>,
 
     /// Sense of the pxtrk restriction list, where 0 = block list, 1 = allow list.
-    #[serde(default = "default_one_i64")]
+    #[serde(default = "default_i64_one")]
     #[serde_as(as = "AsI64")]
     pub wpx: i64,
 

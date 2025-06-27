@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use serde_with::{skip_serializing_none, serde_as};
 use crate::json_coercion::{AsString, AsI64, AsF64};
-use crate::defaults::{default_zero, default_zero_f64, default_usd};
+use crate::defaults::{default_optional_i64_zero, default_optional_f64_zero, default_optional_string_usd};
 use super::{Metric, Banner, Video, Audio, Native, Pmp, Qty, Refresh};
 
 #[cfg(feature = "utoipa")]
@@ -52,7 +52,7 @@ pub struct Imp {
     pub displaymanagerver: Option<String>,
     /// 1 = the ad is interstitial or full screen, 0 = not interstitial.
     #[serde_as(as = "Option<AsI64>")]
-    #[serde(default="default_zero")]
+    #[serde(default="default_optional_i64_zero")]
     pub instl: Option<i64>,
     /// Identifier for specific ad placement or ad tag that was used to
     /// initiate the auction. This can be useful for debugging of any
@@ -61,14 +61,14 @@ pub struct Imp {
     pub tagid: Option<String>,
     /// Minimum bid for this impression expressed in CPM.
     #[serde_as(as = "Option<AsF64>")]
-    #[serde(default="default_zero_f64")]
+    #[serde(default="default_optional_f64_zero")]
     pub bidfloor: Option<f64>,
     /// Currency specified using ISO-4217 alpha codes. This may be different
     /// from bid currency returned by bidder if this is allowed by the
     /// exchange. This currency sets the default for all floors specified
     /// in the `Imp` object.
     #[serde_as(as = "Option<AsString>")]
-    #[serde(default="default_usd")]
+    #[serde(default="default_optional_string_usd")]
     pub bidfloorcur: Option<String>,
     /// Indicates the type of browser opened upon clicking the creative in
     /// an app, where 0 = embedded, 1 = native. Note that the Safari View
@@ -90,7 +90,7 @@ pub struct Imp {
     /// life in a game, or get a sponsored ad-free music session. The reward
     /// is typically distributed after the video ad is completed.
     #[serde_as(as = "Option<AsI64>")]
-    #[serde(default="default_zero")]
+    #[serde(default="default_optional_i64_zero")]
     pub rwdd: Option<i64>,
     /// Indicates if server-side ad insertion (e.g., stitching an ad into an
     /// audio or video stream) is in use and the impact of this on asset and
@@ -98,7 +98,7 @@ pub struct Imp {
     /// (i.e., not server-side), 2 = assets stitched server-side but tracking
     /// pixels fired client-side, 3 = all server-side.
     #[serde_as(as = "Option<AsI64>")]
-    #[serde(default="default_zero")]
+    #[serde(default="default_optional_i64_zero")]
     pub ssai: Option<i64>,
     /// Advisory as to the number of seconds that may elapse between the
     /// auction and the actual impression.

@@ -5,19 +5,14 @@
 use utoipa::ToSchema;
 
 /// List: Size Units
-#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Default)]
 #[cfg_attr(feature = "utoipa", derive(ToSchema))]
 pub enum SizeUnit {
     Unknown(i64),
+    #[default]
     DeviceIndependentPixels,
     Inches,
     Centimeters,
-}
-
-impl Default for SizeUnit {
-    fn default() -> Self {
-        SizeUnit::DeviceIndependentPixels
-    }
 }
 
 impl From<i64> for SizeUnit {

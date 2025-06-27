@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use serde_with::{skip_serializing_none, serde_as};
 use crate::json_coercion::{AsString, AsI64, AsF64, AsEnum};
-use crate::defaults::{default_one_cattax, default_zero_slotinpod};
+use crate::defaults::{default_optional_cattax_one, default_optional_slotinpod_zero};
 use crate::adcom;
 
 #[cfg(feature = "utoipa")]
@@ -58,7 +58,7 @@ pub struct Bid {
     pub tactic: Option<String>,
     /// Taxonomy in use for 'cat'. Refer to `AdCOM 1.0` List: Category Taxonomies.
     #[serde_as(as = "Option<AsEnum<adcom::enums::CategoryTaxonomy>>")]
-    #[serde(default="default_one_cattax")]
+    #[serde(default="default_optional_cattax_one")]
     pub cattax: Option<adcom::enums::CategoryTaxonomy>,
     /// IAB Tech Lab content categories of the creative.
     #[serde_as(as = "Option<Vec<AsString>>")]
@@ -111,7 +111,7 @@ pub struct Bid {
     pub mtype: Option<i64>,
     /// Indicates bid eligibility for specific position within video/audio pod. Refer to `AdCOM 1.0` List: Slot Position in Pod.
     #[serde_as(as = "Option<AsEnum<adcom::enums::SlotPositionInPod>>")]
-    #[serde(default="default_zero_slotinpod")]
+    #[serde(default="default_optional_slotinpod_zero")]
     pub slotinpod: Option<adcom::enums::SlotPositionInPod>,
     /// Placeholder for bidder-specific extensions.
     pub ext: Option<Value>,

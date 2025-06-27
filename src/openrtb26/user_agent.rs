@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use serde_with::{skip_serializing_none, serde_as};
 use crate::json_coercion::{AsString, AsI64, AsEnum};
-use crate::defaults::default_zero_uasource;
+use crate::defaults::default_optional_uasource_zero;
 use crate::adcom;
 use super::BrandVersion;
 
@@ -33,7 +33,7 @@ pub struct UserAgent {
     pub model: Option<String>,
     /// Source of data used to create this object. Refer to `AdCOM 1.0` List: User-Agent Source.
     #[serde_as(as = "Option<AsEnum<adcom::enums::UserAgentSource>>")]
-    #[serde(default="default_zero_uasource")]
+    #[serde(default="default_optional_uasource_zero")]
     pub source: Option<adcom::enums::UserAgentSource>,
     /// Placeholder for vendor specific extensions.
     pub ext: Option<Value>,

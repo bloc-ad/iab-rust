@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use serde_with::{skip_serializing_none, serde_as};
 use crate::json_coercion::{AsString, AsF64, AsI64};
-use crate::defaults::{default_usd, default_zero};
+use crate::defaults::{default_optional_string_usd, default_optional_i64_zero};
 use super::DurFloors;
 
 #[cfg(feature = "utoipa")]
@@ -22,7 +22,7 @@ pub struct Deal {
     pub bidfloor: Option<f64>,
     /// Currency for bidfloor (ISO-4217 alpha codes).
     #[serde_as(as = "Option<AsString>")]
-    #[serde(default="default_usd")]
+    #[serde(default="default_optional_string_usd")]
     pub bidfloorcur: Option<String>,
     /// Optional override of overall auction type (1=First Price, 2=Second Price Plus, 3=Deal Price).
     #[serde_as(as = "Option<AsI64>")]
@@ -35,7 +35,7 @@ pub struct Deal {
     pub wadomain: Option<Vec<String>>,
     /// Indicates if deal is 'guaranteed' (0 = not guaranteed, 1 = guaranteed).
     #[serde_as(as = "Option<AsI64>")]
-    #[serde(default="default_zero")]
+    #[serde(default="default_optional_i64_zero")]
     pub guar: Option<i64>,
     /// Minimum CPM per second for video/audio opportunities.
     #[serde_as(as = "Option<AsF64>")]

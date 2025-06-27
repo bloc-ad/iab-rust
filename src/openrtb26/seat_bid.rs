@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use serde_with::{skip_serializing_none, serde_as};
 use crate::json_coercion::{AsString, AsI64};
-use crate::defaults::default_zero;
+use crate::defaults::default_optional_i64_zero;
 use super::Bid;
 
 #[cfg(feature = "utoipa")]
@@ -21,7 +21,7 @@ pub struct SeatBid {
     pub seat: Option<String>,
     /// 0 = impressions can be won individually; 1 = must be won/lost as group.
     #[serde_as(as = "Option<AsI64>")]
-    #[serde(default="default_zero")]
+    #[serde(default="default_optional_i64_zero")]
     pub group: Option<i64>,
     /// Placeholder for bidder-specific extensions.
     pub ext: Option<Value>,
