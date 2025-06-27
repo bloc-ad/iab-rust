@@ -60,7 +60,6 @@ pub fn default_size_unit() -> SizeUnit {
     SizeUnit::DeviceIndependentPixels
 }
 
-
 pub fn default_clktype() -> ClickType {
     ClickType::ClickableUnknown
 }

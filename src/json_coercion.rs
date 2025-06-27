@@ -16,6 +16,7 @@ impl<'de> DeserializeAs<'de, String> for AsString {
 
 impl SerializeAs<String> for AsString
 {
+
     fn serialize_as<S>(source: &String, serializer: S) -> Result<S::Ok, S::Error>
     where
         S: Serializer,
@@ -48,6 +49,7 @@ impl<'de> DeserializeAs<'de, i64> for AsI64 {
 
 impl SerializeAs<i64> for AsI64
 {
+
     fn serialize_as<S>(source: &i64, serializer: S) -> Result<S::Ok, S::Error>
     where
         S: Serializer,
@@ -78,6 +80,7 @@ impl<'de> DeserializeAs<'de, f64> for AsF64 {
 
 impl SerializeAs<f64> for AsF64
 {
+
     fn serialize_as<S>(source: &f64, serializer: S) -> Result<S::Ok, S::Error>
     where
         S: Serializer,
@@ -156,7 +159,6 @@ impl de::Visitor<'_> for DeserializeI64WithVisitor {
         Ok(0)
     }
 }
-
 
 struct DeserializeF64WithVisitor;
 
@@ -283,6 +285,7 @@ where
     T: TryFrom<i64>,
     <T as TryFrom<i64>>::Error: fmt::Display,
 {
+
     fn deserialize_as<D>(deserializer: D) -> Result<T, D::Error>
     where
         D: Deserializer<'de>,
@@ -298,6 +301,7 @@ impl<T> SerializeAs<T> for AsEnum<T>
 where
     T: Into<i64> + Copy,
 {
+
     fn serialize_as<S>(source: &T, serializer: S) -> Result<S::Ok, S::Error>
     where
         S: Serializer,

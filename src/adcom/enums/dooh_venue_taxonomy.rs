@@ -36,3 +36,4 @@ impl From<DoohVenueTaxonomy> for i64 {
     }
 }
 
+crate::impl_serde_for_enum!(DoohVenueTaxonomy);

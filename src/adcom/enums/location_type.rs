@@ -33,5 +33,4 @@ impl From<LocationType> for i64 {
     }
 }
 
-// Use the macro to implement Serialize and Deserialize
 crate::impl_serde_for_enum!(LocationType);

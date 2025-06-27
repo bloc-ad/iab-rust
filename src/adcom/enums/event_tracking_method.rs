@@ -30,3 +30,4 @@ impl From<EventTrackingMethod> for i64 {
     }
 }
 
+crate::impl_serde_for_enum!(EventTrackingMethod);
