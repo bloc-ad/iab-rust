@@ -1,7 +1,7 @@
 [package]
 name = "iab"
 description = "This library provides strongly-typed structures for OpenRTB, AdCOM, and other specifications published by the Interactive Advertising Bureau (IAB) for the Rust programming language."
-version = "2.0.0"
+version = "1.0.0"
 edition = "2021"
 license = "MIT"
 keywords = ["iab", "openrtb", "adcom", "rtb"]
