@@ -13,7 +13,7 @@
 //! Below is an example of creating a bid request:
 //!
 //! ```
-//! use iab::openrtb2::*;
+//! use iab::openrtb26::*;
 //! use serde_json;
 //!
 //! let request = BidRequest {
@@ -60,7 +60,7 @@
 //! Below is an example of parsing a bid request:
 //!
 //! ```
-//! use iab::openrtb2::*;
+//! use iab::openrtb26::*;
 //! use serde_json::{Result};
 //!
 //! let data = r#"
@@ -98,4 +98,7 @@
 //! );
 //! ```
 
-pub mod openrtb2;
+pub mod openrtb26;
+pub mod adcom;
+mod json_coercion;
+mod defaults;
