@@ -1,9 +1,9 @@
-#[cfg(feature = "utoipa")]
+#[cfg(feature="utoipa")]
 use utoipa::ToSchema;
 
 /// List: Location Types
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
-#[cfg_attr(feature = "utoipa", derive(ToSchema))]
+#[cfg_attr(feature="utoipa", derive(ToSchema))]
 pub enum LocationType {
     GPS,
     IPAddress,

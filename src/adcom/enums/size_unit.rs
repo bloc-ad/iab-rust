@@ -1,12 +1,12 @@
 /// List: Size Units
 /// The following table lists the units of height and width used by creatives, assets,
 /// and placement specifications where noted.
-#[cfg(feature = "utoipa")]
+#[cfg(feature="utoipa")]
 use utoipa::ToSchema;
 
 /// List: Size Units
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Default)]
-#[cfg_attr(feature = "utoipa", derive(ToSchema))]
+#[cfg_attr(feature="utoipa", derive(ToSchema))]
 pub enum SizeUnit {
     Unknown(i64),
     #[default]

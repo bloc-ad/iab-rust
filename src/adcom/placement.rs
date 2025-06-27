@@ -1,10 +1,14 @@
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
-use serde_with::{serde_as, skip_serializing_none};
-use crate::json_coercion::{AsString, AsI64};
+use serde_with::skip_serializing_none;
 use super::{display_placement::DisplayPlacement, video_placement::VideoPlacement, audio_placement::AudioPlacement};
 
-#[cfg(feature = "utoipa")]
+#[cfg(feature="coercion")]
+use crate::json_coercion::{AsString, AsI64};
+#[cfg(feature="coercion")]
+use serde_with::serde_as;
+
+#[cfg(feature="utoipa")]
 use utoipa::ToSchema;
 
 /// Object: Placement
@@ -16,62 +20,62 @@ use utoipa::ToSchema;
 /// The other attributes in this object apply to all aspects and substructures of the
 /// placement (i.e., the same language, secure status, etc. apply to all media types
 /// and native assets as applicable).
-#[serde_as]
+#[cfg_attr(feature="coercion", cfg_eval::cfg_eval, serde_as)]
 #[skip_serializing_none]
 #[derive(Debug, Serialize, Deserialize)]
-#[cfg_attr(feature = "utoipa", derive(ToSchema))]
+#[cfg_attr(feature="utoipa", derive(ToSchema))]
 pub struct Placement {
     /// Identifier for specific ad placement or ad tag; unique within a distribution channel.
-    #[serde_as(as = "Option<AsString>")]
+    #[cfg_attr(feature="coercion", serde_as(as="Option<AsString>"))]
     pub tagid: Option<String>,
 
     /// Indicates if server-side ad insertion (e.g., stitching an ad into an audio or video
     /// stream) is in use and the impact of this on asset and tracker retrieval, where
-    /// 0 = status unknown, 1 = all client-side (i.e., not server-side), 2 = assets stitched
-    /// server-side but tracking pixels fired client-side, 3 = all server-side.
+    /// 0=status unknown, 1=all client-side (i.e., not server-side), 2=assets stitched
+    /// server-side but tracking pixels fired client-side, 3=all server-side.
     #[serde(default)]
-    #[serde_as(as = "AsI64")]
+    #[cfg_attr(feature="coercion", serde_as(as="AsI64"))]
     pub ssai: i64,
 
     /// Name of ad mediation partner, SDK technology, or player responsible for rendering
     /// ad (typically video, audio, or mobile); used by some ad servers to customize ad
     /// code by partner.
-    #[serde_as(as = "Option<AsString>")]
+    #[cfg_attr(feature="coercion", serde_as(as="Option<AsString>"))]
     pub sdk: Option<String>,
 
     /// Version of the SDK specified in the sdk attribute.
-    #[serde_as(as = "Option<AsString>")]
+    #[cfg_attr(feature="coercion", serde_as(as="Option<AsString>"))]
     pub sdkver: Option<String>,
 
-    /// Indicates whether the user receives a reward for viewing the ad, where 0 = no, 1 = yes.
+    /// Indicates whether the user receives a reward for viewing the ad, where 0=no, 1=yes.
     /// Typically video ad implementations allow users to read an additional news article for
     /// free, receive an extra life in a game, or get a sponsored ad-free music session.
     /// The reward is typically distributed after the video ad is completed.
     #[serde(default)]
-    #[serde_as(as = "AsI64")]
+    #[cfg_attr(feature="coercion", serde_as(as="AsI64"))]
     pub reward: i64,
 
     /// Allow list of permitted languages of the creative using ISO-639-1-alpha-2. In practice,
     /// vendors using this object may elect an alternate standard (e.g., BCP-47) in which case
     /// this must be communicated beforehand. Omission of this attribute indicates there are
     /// no restrictions.
-    #[serde_as(as = "Option<Vec<AsString>>")]
+    #[cfg_attr(feature="coercion", serde_as(as="Option<Vec<AsString>>"))]
     pub wlang: Option<Vec<String>>,
 
     /// Flag to indicate if the creative is secure (i.e., uses HTTPS for all assets and markup),
-    /// where 0 = no, 1 = yes. There is no default and thus if omitted, the secure state is
+    /// where 0=no, 1=yes. There is no default and thus if omitted, the secure state is
     /// unknown. However, as a practical matter, the safe assumption is to treat unknown as non-secure.
-    #[serde_as(as = "Option<AsI64>")]
+    #[cfg_attr(feature="coercion", serde_as(as="Option<AsI64>"))]
     pub secure: Option<i64>,
 
     /// Indicates if including markup is supported (i.e., the various adm attributes throughout
-    /// the Placement structure), where 0 = no, 1 = yes.
-    #[serde_as(as = "Option<AsI64>")]
+    /// the Placement structure), where 0=no, 1=yes.
+    #[cfg_attr(feature="coercion", serde_as(as="Option<AsI64>"))]
     pub admx: Option<i64>,
 
     /// Indicates if retrieving markup via URL reference is supported (i.e., the various curl
-    /// attributes throughout the Placement structure), where 0 = no, 1 = yes.
-    #[serde_as(as = "Option<AsI64>")]
+    /// attributes throughout the Placement structure), where 0=no, 1=yes.
+    #[cfg_attr(feature="coercion", serde_as(as="Option<AsI64>"))]
     pub curlx: Option<i64>,
 
     /// Placement Subtype Object that indicates that this may be a display placement and

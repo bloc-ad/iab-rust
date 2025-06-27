@@ -101,5 +101,6 @@
 
 pub mod openrtb26;
 pub mod adcom;
-mod json_coercion;
 mod defaults;
+#[cfg(feature="coercion")]
+mod json_coercion;

@@ -1,9 +1,9 @@
-#[cfg(feature = "utoipa")]
+#[cfg(feature="utoipa")]
 use utoipa::ToSchema;
 
 /// List: Slot Position in Pod
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Default)]
-#[cfg_attr(feature = "utoipa", derive(ToSchema))]
+#[cfg_attr(feature="utoipa", derive(ToSchema))]
 pub enum SlotPositionInPod {
     Unknown(i64),
     #[default]

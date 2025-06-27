@@ -184,6 +184,7 @@ fn test_vast_xml_document_returned_inline_response() {
 
 
 #[test]
+#[cfg(feature="coercion")]
 fn test_coercion_response() {
     let resp = load_and_parse_response("needs-coercion.json");
 

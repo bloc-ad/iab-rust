@@ -7,7 +7,7 @@ macro_rules! impl_serde_for_enum {
             where
                 S: serde::Serializer,
             {
-                let value: i64 = (*self).into();
+                let value: i64=(*self).into();
                 serializer.serialize_i64(value)
             }
         }
@@ -17,7 +17,7 @@ macro_rules! impl_serde_for_enum {
             where
                 D: serde::Deserializer<'de>,
             {
-                let value = i64::deserialize(deserializer)?;
+                let value=i64::deserialize(deserializer)?;
                 Ok(Self::from(value))
             }
         }

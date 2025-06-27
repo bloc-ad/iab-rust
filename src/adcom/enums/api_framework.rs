@@ -1,10 +1,10 @@
 // AdCOM 1.0 Enumerations
-#[cfg(feature = "utoipa")]
+#[cfg(feature="utoipa")]
 use utoipa::ToSchema;
 
 /// 5.2 API Frameworks
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
-#[cfg_attr(feature = "utoipa", derive(ToSchema))]
+#[cfg_attr(feature="utoipa", derive(ToSchema))]
 pub enum ApiFramework {
     VPAID1_0,
     VPAID2_0,

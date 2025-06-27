@@ -1,10 +1,14 @@
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
-use serde_with::{skip_serializing_none, serde_as};
-use crate::json_coercion::{AsString, AsI64};
+use serde_with::skip_serializing_none;
 use super::SupplyChain;
 
-#[cfg(feature = "utoipa")]
+#[cfg(feature="coercion")]
+use crate::json_coercion::{AsString, AsI64};
+#[cfg(feature="coercion")]
+use serde_with::serde_as;
+
+#[cfg(feature="utoipa")]
 use utoipa::ToSchema;
 
 /// Object: Source
@@ -15,22 +19,22 @@ use utoipa::ToSchema;
 /// it can also apply to upstream server entities such as another RTB exchange, a
 /// mediation platform, or an ad server combines direct campaigns with 3rd party
 /// demand in decisioning.
-#[serde_as]
+#[cfg_attr(feature="coercion", cfg_eval::cfg_eval, serde_as)]
 #[skip_serializing_none]
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize, Default)]
-#[cfg_attr(feature = "utoipa", derive(ToSchema))]
+#[cfg_attr(feature="utoipa", derive(ToSchema))]
 pub struct Source {
     /// Entity responsible for the final impression sale decision, where
-    /// 0 = exchange, 1 = upstream source.
-    #[serde_as(as = "Option<AsI64>")]
+    /// 0=exchange, 1=upstream source.
+    #[cfg_attr(feature="coercion", serde_as(as="Option<AsI64>"))]
     pub fd: Option<i64>,
     /// Transaction ID that must be common across all participants in this
     /// bid request (e.g., potentially multiple exchanges).
-    #[serde_as(as = "Option<AsString>")]
+    #[cfg_attr(feature="coercion", serde_as(as="Option<AsString>"))]
     pub tid: Option<String>,
     /// Payment ID chain string containing embedded syntax described in the
     /// TAG Payment ID Protocol v1.0.
-    #[serde_as(as = "Option<AsString>")]
+    #[cfg_attr(feature="coercion", serde_as(as="Option<AsString>"))]
     pub pchain: Option<String>,
     /// This object represents both the links in the supply chain as well
     /// as an indicator whether or not the supply chain is complete.

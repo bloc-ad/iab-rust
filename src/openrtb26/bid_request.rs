@@ -1,12 +1,16 @@
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
-use serde_with::{skip_serializing_none, serde_as};
-use crate::json_coercion::{AsString, AsI64, AsEnum};
+use serde_with::skip_serializing_none;
 use crate::defaults::{default_optional_i64_zero, default_optional_i64_two, default_optional_cattax_one};
 use crate::adcom;
 use super::{Imp, Site, App, DOOH, Device, User, Source, Regs};
 
-#[cfg(feature = "utoipa")]
+#[cfg(feature="coercion")]
+use crate::json_coercion::{AsString, AsI64, AsEnum};
+#[cfg(feature="coercion")]
+use serde_with::serde_as;
+
+#[cfg(feature="utoipa")]
 use utoipa::ToSchema;
 
 /// Object: BidRequest
@@ -15,12 +19,12 @@ use utoipa::ToSchema;
 /// (Section 3.2.4). Other attributes in this top-level object establish rules and
 /// restrictions that apply to all impressions being offered.
 #[skip_serializing_none]
-#[serde_as]
+#[cfg_attr(feature="coercion", cfg_eval::cfg_eval, serde_as)]
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize, Default)]
-#[cfg_attr(feature = "utoipa", derive(ToSchema))]
-#[cfg_attr(feature = "utoipa", schema(
-    description = "OpenRTB Bid Request - Complete specification for requesting bids on ad inventory",
-    example = json!({
+#[cfg_attr(feature="utoipa", derive(ToSchema))]
+#[cfg_attr(feature="utoipa", schema(
+    description="OpenRTB Bid Request - Complete specification for requesting bids on ad inventory",
+    example=json!({
         "id": "test-request-123",
         "imp": [{
             "id": "imp-1",
@@ -36,7 +40,7 @@ pub struct BidRequest {
     /// ID of the bid request, assigned by the exchange, and unique for the
     /// exchange's subsequent tracking of the responses. The exchange may use
     /// different values for different recipients.
-    #[serde_as(as = "AsString")]
+    #[cfg_attr(feature="coercion", serde_as(as="AsString"))]
     pub id: String,
     /// Array of `Imp` objects (Section 3.2.4) representing the impressions
     /// offered. At least 1 `Imp` object is required.
@@ -59,85 +63,85 @@ pub struct BidRequest {
     /// the device; the advertising audience.
     pub user: Option<User>,
     /// Indicator of test mode in which auctions are not billable,
-    /// where 0 = live mode, 1 = test mode.
-    #[serde_as(as = "Option<AsI64>")]
+    /// where 0=live mode, 1=test mode.
+    #[cfg_attr(feature="coercion", serde_as(as="Option<AsI64>"))]
     #[serde(default="default_optional_i64_zero")]
     pub test: Option<i64>,
-    /// Auction type, where 1 = First Price, 2 = Second Price Plus.
+    /// Auction type, where 1=First Price, 2=Second Price Plus.
     /// Exchange-specific auction types can be defined using values 500
     /// and greater.
-    #[serde_as(as = "Option<AsI64>")]
+    #[cfg_attr(feature="coercion", serde_as(as="Option<AsI64>"))]
     #[serde(default="default_optional_i64_two")]
     pub at: Option<i64>,
     /// Maximum time in milliseconds the exchange allows for bids to be received
     /// including Internet latency to avoid timeout. This value supersedes any
     /// *a priori* guidance from the exchange.
-    #[serde_as(as = "Option<AsI64>")]
+    #[cfg_attr(feature="coercion", serde_as(as="Option<AsI64>"))]
     pub tmax: Option<i64>,
     /// Allowed list of buyer seats (e.g., advertisers, agencies) allowed to bid
     /// on this impression. IDs of seats and knowledge of the buyer's customers
     /// to which they refer must be coordinated between bidders and the exchange
     /// *a priori*. At most, only one of `wseat` and `bseat` should be used in
     /// the same request. Omission of both implies no seat restrictions.
-    #[serde_as(as = "Option<Vec<AsString>>")]
+    #[cfg_attr(feature="coercion", serde_as(as="Option<Vec<AsString>>"))]
     pub wseat: Option<Vec<String>>,
     /// Block list of buyer seats (e.g., advertisers, agencies) restricted from
     /// bidding on this impression. IDs of seats and knowledge of the buyer's
     /// customers to which they refer must be coordinated between bidders and
     /// the exchange *a priori*. At most, only one of `wseat` and `bseat` should
     /// be used in the same request. Omission of both implies no seat restrictions.
-    #[serde_as(as = "Option<Vec<AsString>>")]
+    #[cfg_attr(feature="coercion", serde_as(as="Option<Vec<AsString>>"))]
     pub bseat: Option<Vec<String>>,
     /// Flag to indicate if Exchange can verify that the impressions offered
     /// represent all of the impressions available in context (e.g., all on the
     /// web page, all video spots such as pre/mid/post roll) to support
-    /// road-blocking. 0 = no or unknown, 1 = yes, the impressions offered
+    /// road-blocking. 0=no or unknown, 1=yes, the impressions offered
     /// represent all that are available.
-    #[serde_as(as = "Option<AsI64>")]
+    #[cfg_attr(feature="coercion", serde_as(as="Option<AsI64>"))]
     #[serde(default="default_optional_i64_zero")]
     pub allimps: Option<i64>,
     /// Array of allowed currencies for bids on this bid request using ISO-4217
     /// alpha codes. Recommended only if the exchange accepts multiple currencies.
-    #[serde_as(as = "Option<Vec<AsString>>")]
+    #[cfg_attr(feature="coercion", serde_as(as="Option<Vec<AsString>>"))]
     pub cur: Option<Vec<String>>,
     /// Allowed list of languages for creatives using ISO-639-1-alpha-2.
     /// Omission implies no specific restrictions, but buyers would be advised
     /// to consider `language` attribute in the `Device` and/or `Content` objects
     /// if available. Only one of `wlang` or `wlangb` should be present.
-    #[serde_as(as = "Option<Vec<AsString>>")]
+    #[cfg_attr(feature="coercion", serde_as(as="Option<Vec<AsString>>"))]
     pub wlang: Option<Vec<String>>,
     /// Allowed list of languages for creatives using IETF BCP 47I. Omission
     /// implies no specific restrictions, but buyers would be advised to consider
     /// language attribute in the `Device` and/or `Content` objects if available.
     /// Only one of `wlang` or `wlangb` should be present.
-    #[serde_as(as = "Option<Vec<AsString>>")]
+    #[cfg_attr(feature="coercion", serde_as(as="Option<Vec<AsString>>"))]
     pub wlangb: Option<Vec<String>>,
     /// Allowed advertiser categories using the specified category taxonomy.
     /// The taxonomy to be used is defined by the `cattax` field. If no `cattax`
     /// field is supplied IAB Content Taxonomy 1.0 is assumed. Only one of `acat`
     /// or `bcat` should be present.
-    #[serde_as(as = "Option<Vec<AsString>>")]
+    #[cfg_attr(feature="coercion", serde_as(as="Option<Vec<AsString>>"))]
     pub acat: Option<Vec<String>>,
     /// Blocked advertiser categories using the specified category taxonomy.
     /// The taxonomy to be used is defined by the `cattax` field. If no `cattax`
     /// field is supplied IAB Content Taxonomy 1.0 is assumed. Only one of `acat`
     /// or `bcat` should be present.
-    #[serde_as(as = "Option<Vec<AsString>>")]
+    #[cfg_attr(feature="coercion", serde_as(as="Option<Vec<AsString>>"))]
     pub bcat: Option<Vec<String>>,
     /// The taxonomy in use for bcat. Refer to the AdCOM 1.0 list
     /// List: Category Taxonomies for values.
-    #[serde_as(as = "Option<AsEnum<adcom::enums::CategoryTaxonomy>>")]
+    #[cfg_attr(feature="coercion", serde_as(as="Option<AsEnum<adcom::enums::CategoryTaxonomy>>"))]
     #[serde(default="default_optional_cattax_one")]
     pub cattax: Option<adcom::enums::CategoryTaxonomy>,
     /// Block list of advertisers by their domains (e.g., "ford.com").
-    #[serde_as(as = "Option<Vec<AsString>>")]
+    #[cfg_attr(feature="coercion", serde_as(as="Option<Vec<AsString>>"))]
     pub badv: Option<Vec<String>>,
     /// Block list of applications by their app store IDs. See OTT/CTV Store
     /// Assigned App Identification Guidelines for more details about expected
     /// strings for CTV app stores. For mobile apps in Google Play Store, these
     /// should be bundle or package names (e.g. com.foo.mygame). For apps in
     /// Apple App Store, these should be a numeric ID.
-    #[serde_as(as = "Option<Vec<AsString>>")]
+    #[cfg_attr(feature="coercion", serde_as(as="Option<Vec<AsString>>"))]
     pub bapp: Option<Vec<String>>,
     /// A Source object (Section 3.2.2) that provides data about the inventory
     /// source and which entity makes the final decision.

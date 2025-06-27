@@ -304,6 +304,7 @@ fn test_video_request() {
 }
 
 #[test]
+#[cfg(feature="coercion")]
 fn test_coercion_request() {
     let req = load_and_parse_request("needs-coercion.json");
 

@@ -1,10 +1,14 @@
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
-use serde_with::{serde_as, skip_serializing_none};
-use crate::json_coercion::{AsString, AsI64, AsEnum};
+use serde_with::skip_serializing_none;
 use super::{link_asset::LinkAsset, enums::VolumeNormalizationMode};
 
-#[cfg(feature = "utoipa")]
+#[cfg(feature="coercion")]
+use crate::json_coercion::{AsString, AsI64, AsEnum};
+#[cfg(feature="coercion")]
+use serde_with::serde_as;
+
+#[cfg(feature="utoipa")]
 use utoipa::ToSchema;
 
 /// Object: Banner
@@ -14,29 +18,29 @@ use utoipa::ToSchema;
 ///
 /// Note: This implementation includes additional fields (w, h, vcm) beyond the base
 /// AdCOM specification for compatibility with existing systems.
-#[serde_as]
+#[cfg_attr(feature="coercion", cfg_eval::cfg_eval, serde_as)]
 #[skip_serializing_none]
 #[derive(Debug, Serialize, Deserialize)]
-#[cfg_attr(feature = "utoipa", derive(ToSchema))]
+#[cfg_attr(feature="utoipa", derive(ToSchema))]
 pub struct Banner {
     /// A URL that will return the image.
-    #[serde_as(as = "AsString")]
+    #[cfg_attr(feature="coercion", serde_as(as="AsString"))]
     pub img: String,
 
     /// Width of the creative in device independent pixels (DIPS).
     /// Note: This field is an extension beyond the base AdCOM specification.
-    #[serde_as(as = "Option<AsI64>")]
+    #[cfg_attr(feature="coercion", serde_as(as="Option<AsI64>"))]
     pub w: Option<i64>,
 
     /// Height of the creative in device independent pixels (DIPS).
     /// Note: This field is an extension beyond the base AdCOM specification.
-    #[serde_as(as = "Option<AsI64>")]
+    #[cfg_attr(feature="coercion", serde_as(as="Option<AsI64>"))]
     pub h: Option<i64>,
 
     /// Volume normalization mode for any video in the creative.
     /// Refer to List: Volume Normalization Modes.
     /// Note: This field is an extension beyond the base AdCOM specification.
-    #[serde_as(as = "Option<AsEnum<VolumeNormalizationMode>>")]
+    #[cfg_attr(feature="coercion", serde_as(as="Option<AsEnum<VolumeNormalizationMode>>"))]
     pub vcm: Option<VolumeNormalizationMode>,
 
     /// Destination link if the image is activated (e.g., clicked); not applicable

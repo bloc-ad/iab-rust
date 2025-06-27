@@ -1,10 +1,10 @@
-#[cfg(feature = "utoipa")]
+#[cfg(feature="utoipa")]
 use utoipa::ToSchema;
 
 #[allow(non_camel_case_types)]
 /// List: Operating Systems
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
-#[cfg_attr(feature = "utoipa", derive(ToSchema))]
+#[cfg_attr(feature="utoipa", derive(ToSchema))]
 pub enum OperatingSystem {
     OtherNotListed,
     Windows3_1_x,
